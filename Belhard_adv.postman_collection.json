@@ -1,0 +1,431 @@
+{
+	"info": {
+		"_postman_id": "106b6a83-e6ac-48e1-8f42-b878e492454e",
+		"name": "Belhard_adv",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45978365",
+		"_collection_link": "https://garrett-8719646.postman.co/workspace/Garrett's-Workspace~36efd7c5-3742-4f1f-87a6-39693ac21362/collection/45978365-106b6a83-e6ac-48e1-8f42-b878e492454e?action=share&source=collection_link&creator=45978365"
+	},
+	"item": [
+		{
+			"name": "1. 8. Auth First",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "test1@test.test",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "qwerty123",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/auth/access_token",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"auth",
+						"access_token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Auth Second",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "test2@test.test",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "qwerty123",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/auth/access_token",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"auth",
+						"access_token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Task_create",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MjFjOTY5OTNlNjAzMzNjY2Y3ODE2MDUwNzhlMTMzOTAyM2QzNGMyNjM0ZTU0NjcyMDRiZDE2Mjc2ZGRmOWRmNw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"contentType\": \"Task\",\r\n        \"name\": \"Сделай что нибудь\",\r\n        \"isOverdue\": true,\r\n        \"owner\":{\r\n            \"id\":\"1000004\",\r\n            \"contentType\":\"Employee\"\r\n             },\r\n        \"responsible\": {\r\n            \"contentType\": \"Employee\",\r\n            \"id\": \"1000005\"\r\n            },\r\n        \"completed\": 0,\r\n        \"subject\": \"всякая ерунда\",\r\n        \"isUrgent\": false,\r\n        \"isTemplate\": false\r\n\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Task_description",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MjFjOTY5OTNlNjAzMzNjY2Y3ODE2MDUwNzhlMTMzOTAyM2QzNGMyNjM0ZTU0NjcyMDRiZDE2Mjc2ZGRmOWRmNw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contentType\": \"Task\",\r\n    \"attaches\": [],\r\n    \"statement\": \"всякий бред\"\r\n\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task/{{Id}}",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task",
+						"{{Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. Task_accept",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "YWM1MmQzYTY2NzY0ZGYxYzcwNjM0NDY5YzZhZmUxNWRjMmM0OWJmNjZjODBlOGY5MzAyMzhmYmQ3MjllNjljZQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contentType\": \"TaskActionRequest\",\r\n    \"action\": \"act_accept_task\",\r\n    \"text\": \"задача принята в работу\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task/{{Id}}/doAction",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task",
+						"{{Id}}",
+						"doAction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Task_END",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "YWM1MmQzYTY2NzY0ZGYxYzcwNjM0NDY5YzZhZmUxNWRjMmM0OWJmNjZjODBlOGY5MzAyMzhmYmQ3MjllNjljZQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contentType\": \"TaskActionRequest\",\r\n    \"action\": \"act_done\",\r\n    \"text\": \"задача выполнена\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task/{{Id}}/doAction",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task",
+						"{{Id}}",
+						"doAction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Task_comment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MjFjOTY5OTNlNjAzMzNjY2Y3ODE2MDUwNzhlMTMzOTAyM2QzNGMyNjM0ZTU0NjcyMDRiZDE2Mjc2ZGRmOWRmNw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contentType\": \"CommentCreateActionRequest\",\r\n    \"comment\": {\r\n        \"contentType\": \"Comment\",\r\n        \"content\": \"первый коммент\",\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task/{{Id}}",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task",
+						"{{Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. Task_DONE_acception",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MjFjOTY5OTNlNjAzMzNjY2Y3ODE2MDUwNzhlMTMzOTAyM2QzNGMyNjM0ZTU0NjcyMDRiZDE2Mjc2ZGRmOWRmNw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contentType\": \"TaskActionRequest\",\r\n    \"action\": \"act_accept_work\",\r\n    \"text\": \"задача принята\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task/{{Id}}/doAction",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task",
+						"{{Id}}",
+						"doAction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10. Task_delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MjFjOTY5OTNlNjAzMzNjY2Y3ODE2MDUwNzhlMTMzOTAyM2QzNGMyNjM0ZTU0NjcyMDRiZDE2Mjc2ZGRmOWRmNw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "id",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task/{{Id}}",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task",
+						"{{Id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "Id",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
