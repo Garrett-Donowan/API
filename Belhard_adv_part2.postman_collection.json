@@ -1,0 +1,668 @@
+{
+	"info": {
+		"_postman_id": "a3fa40b7-888b-49a7-95f1-542087adc3a3",
+		"name": "Belhard_adv_part2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45978365",
+		"_collection_link": "https://garrett-8719646.postman.co/workspace/36efd7c5-3742-4f1f-87a6-39693ac21362/collection/45978365-a3fa40b7-888b-49a7-95f1-542087adc3a3?action=share&source=collection_link&creator=45978365"
+	},
+	"item": [
+		{
+			"name": "1. 8. Auth First",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "test1@test.test",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "qwerty123",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/auth/access_token",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"auth",
+						"access_token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Auth Second",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "test2@test.test",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "qwerty123",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/auth/access_token",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"auth",
+						"access_token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Task_create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonObject = pm.response.json();\r",
+							"const taskID = jsonObject.data.id;\r",
+							"pm.collectionVariables.set(\"taskID\", taskID);\r",
+							"\r",
+							"const ownerId = jsonObject.data.owner.id;\r",
+							"pm.collectionVariables.set(\"ownerId\", ownerId);\r",
+							"\r",
+							"const responsibleID = jsonObject.data.responsible.id;\r",
+							"pm.collectionVariables.set(\"responsibleID\", responsibleID);\r",
+							"\r",
+							"pm.test(\"Name check\", function () {\r",
+							"    pm.expect(jsonObject.data.name).to.eql(pm.variables.get(\"taskName\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Responsible check\", function () {\r",
+							"    pm.expect(responsibleID).to.eql(\"1000005\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status check\", function () {\r",
+							"    pm.expect(jsonObject.data.status).to.eql(\"assigned\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authFirst}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"contentType\": \"Task\",\r\n        \"name\": \"{{taskName}}\",\r\n        \"isOverdue\": true,\r\n        \"owner\":{\r\n            \"id\":\"1000004\",\r\n            \"contentType\":\"Employee\"\r\n             },\r\n        \"responsible\": {\r\n            \"contentType\": \"Employee\",\r\n            \"id\": \"1000005\"\r\n            },\r\n        \"completed\": 0,\r\n        \"subject\": \"всякая ерунда\",\r\n        \"isUrgent\": false,\r\n        \"isTemplate\": false\r\n\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Task_description",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Check description\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.statement).to.eql(pm.variables.get(\"taskDescription\"));\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authFirst}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contentType\": \"Task\",\r\n    \"attaches\": [],\r\n    \"statement\": \"{{taskDescription}}\"\r\n\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task/{{taskID}}",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task",
+						"{{taskID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. Task_accept",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Check status\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.status).to.eql(\"accepted\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authSecond}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contentType\": \"TaskActionRequest\",\r\n    \"action\": \"act_accept_task\",\r\n    \"text\": \"задача принята в работу\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task/{{taskID}}/doAction",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task",
+						"{{taskID}}",
+						"doAction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Task_END",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check status\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.status).to.eql(\"done\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authSecond}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contentType\": \"TaskActionRequest\",\r\n    \"action\": \"act_done\",\r\n    \"text\": \"задача выполнена\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task/{{taskID}}/doAction",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task",
+						"{{taskID}}",
+						"doAction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Task_comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Comment check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.content).to.eql(\"<p>\" + pm.variables.get(\"commentData\") + \"</p>\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authFirst}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"contentType\": \"CommentCreateActionRequest\",\r\n  \"comment\": {\r\n    \"contentType\": \"Comment\",\r\n    \"content\": \"{{commentData}}\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task/{{taskID}}/comments",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task",
+						"{{taskID}}",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. Task_DONE_acception",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Check status\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.status).to.eql(\"completed\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authFirst}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contentType\": \"TaskActionRequest\",\r\n    \"action\": \"act_accept_work\",\r\n    \"text\": \"задача принята\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task/{{taskID}}/doAction",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task",
+						"{{taskID}}",
+						"doAction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10. Task_delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check text in response\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data).to.eql(\"Task successfully removed\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authFirst}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "id",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mp83645676.megaplan.ru/api/v3/task/{{taskID}}",
+					"protocol": "https",
+					"host": [
+						"mp83645676",
+						"megaplan",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"task",
+						"{{taskID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "authFirst",
+			"value": ""
+		},
+		{
+			"key": "authSecond",
+			"value": ""
+		},
+		{
+			"key": "taskID",
+			"value": ""
+		},
+		{
+			"key": "ownerId",
+			"value": ""
+		},
+		{
+			"key": "responsibleID",
+			"value": ""
+		},
+		{
+			"key": "taskName",
+			"value": ""
+		},
+		{
+			"key": "taskDescription",
+			"value": ""
+		},
+		{
+			"key": "commentData",
+			"value": ""
+		}
+	]
+}
